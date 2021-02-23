@@ -86,6 +86,55 @@ paths:
     post:
       tags:
         - pet
+      summary: Finds Pets by status or tag
+      description: Multiple status or tag values can be provided with comma separated strings
+      operationId: findPets
+      parameters:
+        - name: status
+          in: query
+          description: Status values that need to be considered for filter
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: string
+            default: available
+            enum:
+              - available
+              - pending
+              - sold
+        - name: tags
+          in: query
+          description: Tags to filter by
+          required: false
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid status or tag value
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+    post:
+      tags:
+        - pet
       summary: Add a new pet to the store
       description: Add a new pet to the store
       operationId: addPet
@@ -118,15 +167,7 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/Pet'
-  '/pets/{petId}':
-    parameters:
-      - name: petId
-        in: path
-        description: ID of pet
-        required: true
-        schema:
-          type: integer
-          format: int64
+  /pet/findByStatus:
     get:
       tags:
         - pet
