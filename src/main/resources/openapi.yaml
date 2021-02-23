@@ -373,7 +373,7 @@ paths:
       tags:
         - user
       summary: Create user
-      description: This can only be done by the logged in user.
+      description: ''
       operationId: createUser
       responses:
         default:
@@ -478,6 +478,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+        - petstore_auth: []
   '/users/{username}':
     parameters:
       - name: username
@@ -528,6 +530,8 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/User'
+      security:
+        - petstore_auth: []
     delete:
       tags:
         - user
@@ -539,6 +543,8 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+      security:
+        - petstore_auth: []
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
